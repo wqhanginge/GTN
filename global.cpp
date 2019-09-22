@@ -1,8 +1,13 @@
-int num[5], guess[5];
-int A, B;
-int L=0; //language
-int EL=0; //errorlevel
-int I; //running number
-int show=1; //special show
-int D=4; //digits
-int C=10; //chances
+//////////////////////////////////////////////////////
+//
+//global variables and functions
+//
+////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+
+int num[5], getn[5];
+int Lan = 0;	//language
+int Di = 4;	//digits
+int Chan = 10;	//chances
+int Mode = 0;	//modes
