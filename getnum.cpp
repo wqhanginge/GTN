@@ -1,40 +1,65 @@
-#include "headfiles.h"
-//0. normal
-//-1. illegal
-//-2. quit
-//-3. close
-//D. digits
+////////////////////////////////////////////////////////////////
+//
+//produce random number and get number form keyboard
+//
+/////////////////////////////////////////////////////////////////
 
-void producenum(){
+
+
+#include "stdafx.h"
+
+
+
+void prod_num_s(){
+	/*produce random numbers(strict)*/
+
 	srand((unsigned)time(NULL));
-	num[0]=rand()%10;
-	do { num[1] = rand()%10; } while (num[1] == num[0]);
-	do { num[2] = rand()%10; } while (num[2] == num[0] || num[2] == num[1]);
-	if (D == 3) { return; }
-	do { num[3] = rand()%10; } while (num[3] == num[0] || num[3] == num[1] || num[3] == num[2]);
-	if (D == 4) { return; }
-	do { num[4] = rand()%10; } while (num[4] == num[0] || num[4] == num[1] || num[4] == num[2] || num[4] == num[3]);
+	num[0] = rand() % 10;
+	do { num[1] = rand() % 10; } while (num[1] == num[0]);
+	do { num[2] = rand() % 10; } while (num[2] == num[0] || num[2] == num[1]);
+	if (Di == 3)
+		return;
+	do { num[3] = rand() % 10; } while (num[3] == num[0] || num[3] == num[1] || num[3] == num[2]);
+	if (Di == 4)
+		return;
+	do { num[4] = rand() % 10; } while (num[4] == num[0] || num[4] == num[1] || num[4] == num[2] || num[4] == num[3]);
 }
 
-int getnum(){
+
+
+void prod_num(){
+	/*produce random numbers*/
+
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < Di; i++)
+		num[i] = rand() % 10;
+}
+
+
+
+int get_num() {
+	/*get number form keyboard
+	/*0.............finish
+	/*-1............quit*/
+
 	char ch;
-	for (int i = 0; i < D + 1; i++){
+	for (int i = 0; i < Di + 1; i++){
 		ch = _getch();
-		if (ch == ENDG)						//input Esc
-			return -3;
-		else if (ch == 113 || ch == 81){		//input q
+		if (ch == END_G)						//input Esc
+			exit(0);
+		else if (ch == 'q' || ch == 'Q'){		//input q
 			cout << endl;
-			return -2;
+			return -1;
 		}
 		else if (i > 0 && ch == 8){			//input Backspace
 			i -= 2;
 			cout << "\b \b";
 		}
-		else if (i < D && ch > 47 && ch < 58){	//input number
-			guess[i] = ch - 48;
-			cout << guess[i];
+		else if (i < Di && ch >= '0' && ch <= '9'){	//input number
+			getn[i] = ch - '0';
+			cout << getn[i];
 		}
-		else if (i == D && (ch == 13 || ch == 10))	//input Enter
+		else if (i == Di && (ch == 10 || ch == 13))	//input Enter
 			break;
 		else
 			i--;						//wrong input
@@ -42,26 +67,25 @@ int getnum(){
 	return 0;
 }
 
-int get_show(){
-	do {
-		switch (L){
-		case 0: cout << "Please input the number you guess:"; break;
-		case 1: cout << "请输入你猜的数字:"; break;
-		}
-		getnum();
-		if (EL == -3 || EL == -2) { return; }		//input Esc or q
-		for (int i = 0; i < D - 1; i++) {			//i from 0 to D-1
-			for (int j = i + 1; j < D; j++) {		//j from i+1 to D
-				if (guess[i] == guess[j]) { EL = -1; }	//if there are same numbers then illegal
+
+
+int get_echo(){
+	/*show guid info of getting number(strict)
+	/*1..............illegal
+	/*0..............fine
+	/*-1.............quit*/
+
+	cout << "Please input the number you guess:";
+	if (get_num() == -1)	//quit
+		return -1;
+	if (Mode == 1)
+		return 0;
+	for (int m = 0; m < Di - 1; m++)	//if have same number then illegal
+		for (int n = m + 1; n < Di; n++)
+			if (getn[m] == getn[n]){
+				cout << "\nThe number is illegal!" << endl;
+				return 1;
 			}
-		}
-		if (EL == -1) {			//illegal
-			switch (L) {
-			case 0: cout << "\nThe number is illegal!" << endl; break;
-			case 1: cout << "\n输入的数字不合规则!" << endl; break;
-			}
-		}
-		else { cout << endl; }	//legal
-	} while (EL == -1);
+	cout << endl;
 	return 0;
 }

@@ -6,7 +6,7 @@
 
 
 
-#include "decl.h"
+#include "stdafx.h"
 
 
 
